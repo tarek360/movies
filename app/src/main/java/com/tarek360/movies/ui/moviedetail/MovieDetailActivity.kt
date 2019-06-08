@@ -1,17 +1,16 @@
-package com.tarek360.movies
+package com.tarek360.movies.ui.moviedetail
 
-import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import kotlinx.android.synthetic.main.activity_item_detail.*
+import com.tarek360.movies.R
+import kotlinx.android.synthetic.main.activity_movie_detail.*
 
-class ItemDetailActivity : AppCompatActivity() {
+class MovieDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_item_detail)
+        setContentView(R.layout.activity_movie_detail)
 
         setSupportActionBar(detail_toolbar)
 
@@ -25,7 +24,12 @@ class ItemDetailActivity : AppCompatActivity() {
 
     private fun displayItemDetailFragment() {
 
-        val fragment = ItemDetailFragment.newInstance(intent.getStringExtra(ItemDetailFragment.ARG_ITEM_ID))
+        val fragment = MovieDetailFragment.newInstance(
+            intent.getIntExtra(
+                MovieDetailFragment.ARG_ITEM_ID,
+                0
+            )
+        )
 
         supportFragmentManager.beginTransaction()
             .add(R.id.item_detail_container, fragment)
