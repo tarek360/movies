@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.movies_list_content.view.*
 
 class MoviesRecyclerViewAdapter(
     private val parentActivity: MoviesListActivity,
-    private val values: List<Movie>,
+    private var values: List<Movie>,
     private val twoPane: Boolean
 ) :
     RecyclerView.Adapter<MoviesRecyclerViewAdapter.ViewHolder>() {
@@ -33,7 +33,7 @@ class MoviesRecyclerViewAdapter(
                     .commit()
             } else {
                 val intent = Intent(v.context, MovieDetailActivity::class.java).apply {
-                    putExtra(MovieDetailFragment.ARG_ITEM_ID, position)
+                    putExtra(MovieDetailFragment.ARG_ITEM_INDEX, position)
                 }
                 v.context.startActivity(intent)
             }
@@ -57,6 +57,11 @@ class MoviesRecyclerViewAdapter(
     }
 
     override fun getItemCount() = values.size
+
+    fun setMoviesList(data: List<Movie>) {
+        values = data
+        notifyDataSetChanged()
+    }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val titleView: TextView = view.title

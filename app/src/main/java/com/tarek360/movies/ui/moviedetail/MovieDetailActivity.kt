@@ -26,7 +26,7 @@ class MovieDetailActivity : AppCompatActivity() {
 
         val fragment = MovieDetailFragment.newInstance(
             intent.getIntExtra(
-                MovieDetailFragment.ARG_ITEM_ID,
+                MovieDetailFragment.ARG_ITEM_INDEX,
                 0
             )
         )
