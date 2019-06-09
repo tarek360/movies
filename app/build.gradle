@@ -46,6 +46,15 @@ dependencies {
     def rxAndroidVersion = "2.1.1"
     implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
 
+    //Lifecycle
+    def lifecycleVersion = "1.1.1"
+    implementation "android.arch.lifecycle:extensions:$lifecycleVersion"
+    testImplementation "android.arch.core:core-testing:$lifecycleVersion"
+
+    //Timber
+    def timberVersion = "4.7.1"
+    implementation "com.jakewharton.timber:timber:$timberVersion"
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

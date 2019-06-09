@@ -4,6 +4,7 @@ import android.app.Application
 import com.tarek360.movies.dagger.AppComponent
 import com.tarek360.movies.dagger.AppModule
 import com.tarek360.movies.dagger.DaggerAppComponent
+import timber.log.Timber
 
 class App : Application() {
 
@@ -11,6 +12,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        Timber.plant(Timber.DebugTree())
         appComponent = initDagger(this)
     }
 

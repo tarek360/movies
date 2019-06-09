@@ -1,25 +1,23 @@
 package com.tarek360.movies.ui.movieslist
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import com.tarek360.movies.App
 import com.tarek360.movies.R
-import com.tarek360.movies.domain.MoviesListInteractor
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import com.tarek360.movies.viewmodel.MovieViewModelProviders
 import kotlinx.android.synthetic.main.activity_movies_list.*
 import kotlinx.android.synthetic.main.item_list.*
+import timber.log.Timber
 import javax.inject.Inject
 
 class MoviesListActivity : AppCompatActivity() {
 
-    private var adapter: MoviesRecyclerViewAdapter? = null
-    private val compositeDisposable = CompositeDisposable()
-
     @Inject
-    lateinit var moviesListInteractor: MoviesListInteractor
+    lateinit var movieViewModelProviders: MovieViewModelProviders
+
+    private lateinit var moviesListViewModel: MoviesListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,29 +30,41 @@ class MoviesListActivity : AppCompatActivity() {
 
         setupRecyclerView(moviesRecyclerView)
 
-        loadMoviesList()
+        moviesListViewModel = movieViewModelProviders.of(this).get(MoviesListViewModel::class.java)
+
+        moviesListViewModel.viewState.observe(this, Observer { render(it) })
+
+        moviesListViewModel.handleIntent(MoviesListIntent.LoadMoviesListIntent)
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
         val twoPane = movieDetailContainer != null
-        adapter = MoviesRecyclerViewAdapter(this, emptyList(), twoPane)
-        recyclerView.adapter = adapter
+        recyclerView.adapter = MoviesRecyclerViewAdapter(this, emptyList(), twoPane)
     }
 
-    private fun loadMoviesList() {
-        compositeDisposable.add(moviesListInteractor.getMoviesList()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                adapter?.setMoviesList(it)
-            })
-    }
-
-    override fun onDestroy() {
-        if (!compositeDisposable.isDisposed) {
-            compositeDisposable.dispose()
+    private fun render(state: MoviesListState?) {
+        if (state == null) return // Ignore null values
+        when (state) {
+            is MoviesListState.LoadingState -> renderLoadingState()
+            is MoviesListState.DataState -> renderDataState(state)
+            is MoviesListState.ErrorState -> renderErrorState(state)
         }
-        moviesListInteractor.clear()
-        super.onDestroy()
+    }
+
+    private fun renderLoadingState() {
+        Timber.d("Render: loading state")
+        moviesRecyclerView.isEnabled = false
+    }
+
+    private fun renderDataState(dataState: MoviesListState.DataState) {
+        Timber.d("Render: data state")
+        moviesRecyclerView.apply {
+            isEnabled = true
+            (adapter as MoviesRecyclerViewAdapter).setMoviesList(dataState.data)
+        }
+    }
+
+    private fun renderErrorState(dataState: MoviesListState.ErrorState) {
+        Timber.d("Render: Error State")
     }
 }

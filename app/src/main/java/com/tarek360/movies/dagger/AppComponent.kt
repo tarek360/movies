@@ -10,7 +10,8 @@ import javax.inject.Singleton
     modules = [
         AppModule::class,
         MoviesListModule::class,
-        MovieDetailModule::class]
+        MovieDetailModule::class,
+        ViewModelModule::class]
 )
 interface AppComponent {
     fun inject(target: MoviesListActivity)
