@@ -4,8 +4,10 @@ import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import com.tarek360.movies.App
 import com.tarek360.movies.R
+import com.tarek360.movies.longToast
 import com.tarek360.movies.viewmodel.MovieViewModelProviders
 import kotlinx.android.synthetic.main.activity_movies_list.*
 import kotlinx.android.synthetic.main.item_list.*
@@ -54,10 +56,12 @@ class MoviesListActivity : AppCompatActivity() {
     private fun renderLoadingState() {
         Timber.d("Render: loading state")
         moviesRecyclerView.isEnabled = false
+        progressBar.visibility = View.VISIBLE
     }
 
     private fun renderDataState(dataState: MoviesListState.DataState) {
         Timber.d("Render: data state")
+        progressBar.visibility = View.GONE
         moviesRecyclerView.apply {
             isEnabled = true
             (adapter as MoviesRecyclerViewAdapter).setMoviesList(dataState.data)
@@ -66,5 +70,7 @@ class MoviesListActivity : AppCompatActivity() {
 
     private fun renderErrorState(dataState: MoviesListState.ErrorState) {
         Timber.d("Render: Error State")
+        longToast(dataState.data)
+        progressBar.visibility = View.GONE
     }
 }

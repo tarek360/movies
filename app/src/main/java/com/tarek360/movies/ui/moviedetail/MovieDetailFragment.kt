@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.tarek360.movies.App
 import com.tarek360.movies.R
+import com.tarek360.movies.longToast
 import com.tarek360.movies.viewmodel.MovieViewModelProviders
 import kotlinx.android.synthetic.main.activity_movie_detail.*
 import kotlinx.android.synthetic.main.movie_detail.*
@@ -61,16 +62,20 @@ class MovieDetailFragment : Fragment() {
 
     private fun renderLoadingState() {
         Timber.d("Render: loading state")
+        progressBar.visibility = View.VISIBLE
     }
 
     private fun renderDataState(dataState: MovieDetailState.DataState) {
         Timber.d("Render: data state")
+        progressBar.visibility = View.GONE
         activity?.toolbar_layout?.title = dataState.data.title
         yearView.text = dataState.data.year.toString()
     }
 
     private fun renderErrorState(dataState: MovieDetailState.ErrorState) {
         Timber.d("Render: Error State")
+        longToast(dataState.data)
+        progressBar.visibility = View.GONE
     }
 
     private fun getMovieIndex(): Int {
