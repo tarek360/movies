@@ -2,6 +2,7 @@ package com.tarek360.movies.dagger
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import com.tarek360.movies.ui.moviedetail.MovieDetailViewModel
 import com.tarek360.movies.ui.movieslist.MoviesListViewModel
 import com.tarek360.movies.viewmodel.ViewModelFactory
 import dagger.Binds
@@ -25,5 +26,10 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(MoviesListViewModel::class)
     internal abstract fun moviesListViewModel(viewModel: MoviesListViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MovieDetailViewModel::class)
+    internal abstract fun movieDetailViewModel(viewModel: MovieDetailViewModel): ViewModel
 
 }
