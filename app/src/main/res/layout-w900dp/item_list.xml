@@ -26,7 +26,7 @@
             android:layout_marginRight="16dp"
             app:layoutManager="LinearLayoutManager"
             tools:context="com.swvl.movies.MoviesListActivity"
-            tools:listitem="@layout/movies_list_content"/>
+            tools:listitem="@layout/list_item_movie"/>
 
     <FrameLayout
             android:id="@+id/movieDetailContainer"

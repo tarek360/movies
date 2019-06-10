@@ -27,7 +27,7 @@ class MovieDetailViewModel @Inject constructor(
             return
         }
 
-        compositeDisposable.add(movieDetailInteractor.getMovie(intent.index)
+        compositeDisposable.add(movieDetailInteractor.getMovie(intent.movieId)
             .map<MovieDetailState> { MovieDetailState.DataState(it) }
             .onErrorReturn { MovieDetailState.ErrorState("Error") }
             .startWith(MovieDetailState.LoadingState)

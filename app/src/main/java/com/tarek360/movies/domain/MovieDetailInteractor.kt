@@ -7,9 +7,9 @@ import io.reactivex.schedulers.Schedulers
 
 class MovieDetailInteractorImpl(private val moviesRepository: MoviesRepository) : MovieDetailInteractor {
 
-    override fun getMovie(index: Int): Observable<Movie> {
+    override fun getMovie(movieId: Int): Observable<Movie> {
         return moviesRepository.getMoviesObservable()
             .observeOn(Schedulers.io())
-            .map { it[index] }
+            .map { it[movieId] }
     }
 }

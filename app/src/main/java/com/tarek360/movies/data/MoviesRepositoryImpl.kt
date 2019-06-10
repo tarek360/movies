@@ -30,7 +30,13 @@ class MoviesRepositoryImpl(private val context: Context): MoviesRepository {
         val content = inputStream.readBytes().toString(Charset.defaultCharset())
         inputStream.close()
         val moviesData = Gson().fromJson(content, MoviesData::class.java)
-        this.moviesData = moviesData
+        this.moviesData = moviesData.copy(movies = moviesData.movies.withIds())
         return moviesData
+    }
+
+    private fun List<Movie>.withIds(): List<Movie> {
+        return this.mapIndexed { index, movie ->
+            movie.copy(id = index)
+        }
     }
 }

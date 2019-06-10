@@ -6,4 +6,5 @@
     <dimen name="text_margin">8dp</dimen>
     <dimen name="card_margin">8dp</dimen>
     <dimen name="card_padding">8dp</dimen>
+    <dimen name="search_text_field_margin">8dp</dimen>
 </resources>

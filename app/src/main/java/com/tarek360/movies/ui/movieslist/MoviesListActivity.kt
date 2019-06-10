@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.tarek360.movies.App
 import com.tarek360.movies.R
+import com.tarek360.movies.afterTextChanged
 import com.tarek360.movies.longToast
 import com.tarek360.movies.viewmodel.MovieViewModelProviders
 import kotlinx.android.synthetic.main.activity_movies_list.*
@@ -37,11 +38,15 @@ class MoviesListActivity : AppCompatActivity() {
         moviesListViewModel.viewState.observe(this, Observer { render(it) })
 
         moviesListViewModel.handleIntent(MoviesListIntent.LoadMoviesListIntent)
+
+        searchTextField.afterTextChanged {
+            moviesListViewModel.handleIntent(MoviesListIntent.SearchMoviesListIntent(searchKey = it))
+        }
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
         val twoPane = movieDetailContainer != null
-        recyclerView.adapter = MoviesRecyclerViewAdapter(this, emptyList(), twoPane)
+        recyclerView.adapter = MoviesRecyclerViewAdapter(this, twoPane)
     }
 
     private fun render(state: MoviesListState?) {
@@ -62,9 +67,11 @@ class MoviesListActivity : AppCompatActivity() {
     private fun renderDataState(dataState: MoviesListState.DataState) {
         Timber.d("Render: data state")
         progressBar.visibility = View.GONE
+
         moviesRecyclerView.apply {
             isEnabled = true
-            (adapter as MoviesRecyclerViewAdapter).setMoviesList(dataState.data)
+            (adapter as MoviesRecyclerViewAdapter).setItems(dataState.data)
+            scrollToPosition(0)
         }
     }
 

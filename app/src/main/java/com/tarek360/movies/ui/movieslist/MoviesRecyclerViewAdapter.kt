@@ -6,26 +6,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.tarek360.movies.R
 import com.tarek360.movies.ui.moviedetail.MovieDetailActivity
 import com.tarek360.movies.ui.moviedetail.MovieDetailFragment
-import com.tarek360.movies.R
-import com.tarek360.movies.model.Movie
-import kotlinx.android.synthetic.main.movies_list_content.view.*
+import kotlinx.android.synthetic.main.list_item_movie.view.*
 
 class MoviesRecyclerViewAdapter(
     private val parentActivity: MoviesListActivity,
-    private var values: List<Movie>,
     private val twoPane: Boolean
 ) :
-    RecyclerView.Adapter<MoviesRecyclerViewAdapter.ViewHolder>() {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val onItemClickListener: ((View, Int) -> Unit)?
+    private var items = emptyList<RecyclerViewItem>()
+
+    companion object {
+        private const val TYPE_YEAR = 0
+        private const val TYPE_MOVIE = 1
+    }
 
     init {
-        onItemClickListener = { v, position ->
-            //            val item = v.tag as Movie
+        onItemClickListener = { v, movieId ->
             if (twoPane) {
-                val fragment = MovieDetailFragment.newInstance(position)
+                val fragment = MovieDetailFragment.newInstance(movieId)
 
                 parentActivity.supportFragmentManager
                     .beginTransaction()
@@ -33,38 +36,66 @@ class MoviesRecyclerViewAdapter(
                     .commit()
             } else {
                 val intent = Intent(v.context, MovieDetailActivity::class.java).apply {
-                    putExtra(MovieDetailFragment.ARG_ITEM_INDEX, position)
+                    putExtra(MovieDetailFragment.ARG_MOVIE_ID, movieId)
                 }
                 v.context.startActivity(intent)
             }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.movies_list_content, parent, false)
-        return ViewHolder(view)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = values[position]
-        holder.titleView.text = item.title
-        holder.yearView.text = holder.itemView.context.getString(R.string.year, item.year)
+        val inflater = LayoutInflater.from(parent.context)
 
-        with(holder.itemView) {
-            setOnClickListener { v -> onItemClickListener?.invoke(v, position) }
+        return when (viewType) {
+            TYPE_YEAR -> {
+                val view = inflater.inflate(R.layout.list_item_year, parent, false)
+                YearViewHolder(view)
+            }
+            TYPE_MOVIE -> {
+                val view = inflater.inflate(R.layout.list_item_movie, parent, false)
+                MovieViewHolder(view)
+            }
+            else -> throw IllegalArgumentException("Invalid view type")
         }
     }
 
-    override fun getItemCount() = values.size
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (val item = items[position]) {
+            is RecyclerViewItem.YearItem -> {
+                (holder as YearViewHolder).yearView.text = holder.itemView.context.getString(R.string.year, item.year)
+            }
+            is RecyclerViewItem.MovieItem -> {
+                (holder as MovieViewHolder).apply {
+                    titleView.text = item.movie.title
+                    yearView.text = holder.itemView.context.getString(R.string.year, item.movie.year)
+                    itemView.setOnClickListener { v -> onItemClickListener?.invoke(v, item.movie.id) }
+                }
+            }
+        }
+    }
 
-    fun setMoviesList(data: List<Movie>) {
-        values = data
+    override fun getItemCount() = items.size
+
+    override fun getItemViewType(position: Int): Int {
+        return when (items[position]) {
+            is RecyclerViewItem.YearItem -> TYPE_YEAR
+            is RecyclerViewItem.MovieItem -> TYPE_MOVIE
+        }
+    }
+
+    fun setItems(items: List<RecyclerViewItem>) {
+        this.items = items
         notifyDataSetChanged()
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class MovieViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val titleView: TextView = view.title
         val yearView: TextView = view.year
     }
+
+    inner class YearViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val yearView: TextView = view.year
+    }
+
 }

@@ -24,10 +24,10 @@ class MovieDetailFragment : Fragment() {
     lateinit var movieViewModelProviders: MovieViewModelProviders
 
     companion object {
-        const val ARG_ITEM_INDEX = "item_index"
+        const val ARG_MOVIE_ID = "movie_id"
         fun newInstance(itemId: Int): MovieDetailFragment = MovieDetailFragment().apply {
             arguments = Bundle().apply {
-                putInt(ARG_ITEM_INDEX, itemId)
+                putInt(ARG_MOVIE_ID, itemId)
             }
         }
     }
@@ -48,7 +48,7 @@ class MovieDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         movieDetailViewModel = movieViewModelProviders.of(this).get(MovieDetailViewModel::class.java)
         movieDetailViewModel.viewState.observe(this, Observer { render(it) })
-        movieDetailViewModel.handleIntent(MovieDetailIntent.LoadMovieIntent(index = getMovieIndex()))
+        movieDetailViewModel.handleIntent(MovieDetailIntent.LoadMovieIntent(movieId = getMovieId()))
     }
 
     private fun render(state: MovieDetailState?) {
@@ -78,14 +78,14 @@ class MovieDetailFragment : Fragment() {
         progressBar.visibility = View.GONE
     }
 
-    private fun getMovieIndex(): Int {
+    private fun getMovieId(): Int {
         arguments?.let {
-            if (it.containsKey(ARG_ITEM_INDEX)) {
+            if (it.containsKey(ARG_MOVIE_ID)) {
                 context?.run {
-                    return it.getInt(ARG_ITEM_INDEX)
+                    return it.getInt(ARG_MOVIE_ID)
                 }
             }
         }
-        throw Throwable("Can't get movie index")
+        throw Throwable("Can't get movie id")
     }
 }

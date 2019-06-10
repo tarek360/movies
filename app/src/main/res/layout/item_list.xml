@@ -9,4 +9,4 @@
         android:layout_height="match_parent"
         app:layoutManager="LinearLayoutManager"
         tools:context=".ui.movieslist.MoviesListActivity"
-        tools:listitem="@layout/movies_list_content"/>
+        tools:listitem="@layout/list_item_movie"/>
