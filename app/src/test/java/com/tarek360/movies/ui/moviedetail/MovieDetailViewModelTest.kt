@@ -43,7 +43,7 @@ class MovieDetailViewModelTest {
     fun `handle LoadMovieIntent returns DataState`() {
 
         // Arrange
-        val movie = Movie("Face-off", 1997, emptyList(), emptyList(), 5)
+        val movie = Movie(1,"Face-off", 1997, emptyList(), emptyList(), 5)
         val dataState = MovieDetailState.DataState(data = movie)
 
         whenever(movieDetailInteractor.getMovie(112)).thenReturn(Observable.just(movie))
