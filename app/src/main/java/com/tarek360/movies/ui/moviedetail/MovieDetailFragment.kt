@@ -54,20 +54,24 @@ class MovieDetailFragment : Fragment() {
     private fun render(state: MovieDetailState?) {
         if (state == null) return // Ignore null values
         when (state) {
-            is MovieDetailState.LoadingState -> renderLoadingState()
+            is MovieDetailState.LoadingState -> renderLoadingState(state)
             is MovieDetailState.DataState -> renderDataState(state)
             is MovieDetailState.ErrorState -> renderErrorState(state)
         }
     }
 
-    private fun renderLoadingState() {
+    private fun renderLoadingState(loadingState: MovieDetailState.LoadingState) {
         Timber.d("Render: loading state")
-        progressBar.visibility = View.VISIBLE
+        when (loadingState) {
+            is MovieDetailState.LoadingState.MovieLoadingState -> movieProgressBar.visibility = View.VISIBLE
+            is MovieDetailState.LoadingState.PhotosLoadingState -> photosProgressBar.visibility = View.VISIBLE
+        }
     }
 
     private fun renderDataState(dataState: MovieDetailState.DataState) {
         Timber.d("Render: data state")
-        progressBar.visibility = View.GONE
+        movieProgressBar.visibility = View.GONE
+        if (dataState.data.photos.isNotEmpty()) photosProgressBar.visibility = View.GONE
         activity?.toolbar_layout?.title = dataState.data.title
         yearView.text = dataState.data.year
         castView.text = dataState.data.cast
@@ -77,7 +81,8 @@ class MovieDetailFragment : Fragment() {
     private fun renderErrorState(dataState: MovieDetailState.ErrorState) {
         Timber.d("Render: Error State")
         longToast(dataState.data)
-        progressBar.visibility = View.GONE
+        movieProgressBar.visibility = View.GONE
+        photosProgressBar.visibility = View.GONE
     }
 
     private fun getMovieId(): Int {

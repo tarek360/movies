@@ -16,9 +16,15 @@ class ViewModelFactory
         return try {
             viewModels[modelClass]?.get() as T
         } catch (e: Exception) {
-            throw IllegalStateException(
-                "Did you forget to bind the class '${modelClass.name}' to the ViewModelModule?", e
-            )
+            when (e) {
+                is ClassCastException -> {
+                    throw IllegalStateException(
+                        "Did you forget to bind the class '${modelClass.name}' to the ViewModelModule?", e
+                    )
+                }
+                else -> throw Exception(e)
+            }
+
         }
     }
 }

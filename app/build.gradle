@@ -14,9 +14,14 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            buildConfigField 'String', "FLICKR_API_KEY", flickr_api_key
+            buildConfigField 'String', "FLICKR_API_SECRET", flickr_api_secret
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', "OMDB_API_KEY", omdb_apikey
         }
     }
 }
@@ -56,6 +61,16 @@ dependencies {
     //Timber
     def timberVersion = "4.7.1"
     implementation "com.jakewharton.timber:timber:$timberVersion"
+
+    //Retrofit
+    def retrofitVersion = "2.6.0"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+
+    // okhttp
+    def okhttpVersion = "3.9.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
 
     //JUnit
     def junitVersion = "4.12"
