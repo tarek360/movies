@@ -53,7 +53,7 @@ open class MoviesListViewModel @Inject constructor(
     private fun searchMoviesIntent(searchKey: String) {
         Timber.d("Intent: search movies intent!")
 
-        if (searchKey.isEmpty()) {
+        if (searchKey.isBlank()) {
             loadMoviesListIntent()
             return
         }

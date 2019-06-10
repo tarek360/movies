@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,6 +50,12 @@ class MovieDetailFragment : Fragment() {
         movieDetailViewModel = movieViewModelProviders.of(this).get(MovieDetailViewModel::class.java)
         movieDetailViewModel.viewState.observe(this, Observer { render(it) })
         movieDetailViewModel.handleIntent(MovieDetailIntent.LoadMovieIntent(movieId = getMovieId()))
+        setupPhotosRecyclerView()
+    }
+
+    private fun setupPhotosRecyclerView() {
+        photosRecyclerView.layoutManager = GridLayoutManager(context, 2)
+        photosRecyclerView.adapter = PhotosRecyclerViewAdapter()
     }
 
     private fun render(state: MovieDetailState?) {
@@ -71,11 +78,19 @@ class MovieDetailFragment : Fragment() {
     private fun renderDataState(dataState: MovieDetailState.DataState) {
         Timber.d("Render: data state")
         movieProgressBar.visibility = View.GONE
-        if (dataState.data.photos.isNotEmpty()) photosProgressBar.visibility = View.GONE
         activity?.toolbar_layout?.title = dataState.data.title
         yearView.text = dataState.data.year
         castView.text = dataState.data.cast
         genresView.text = dataState.data.genres
+
+        if (dataState.data.photos.isNotEmpty()) {
+            photosProgressBar.visibility = View.GONE
+            renderPhotos(dataState.data.photos)
+        }
+    }
+
+    private fun renderPhotos(photos: List<String>) {
+        (photosRecyclerView.adapter as PhotosRecyclerViewAdapter).addItems(photos)
     }
 
     private fun renderErrorState(dataState: MovieDetailState.ErrorState) {

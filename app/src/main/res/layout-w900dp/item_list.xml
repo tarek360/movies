@@ -19,13 +19,11 @@
 
     <android.support.v7.widget.RecyclerView
             android:id="@+id/moviesRecyclerView"
-            android:name="com.swvl.movies.ItemListFragment"
             android:layout_width="@dimen/item_width"
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             app:layoutManager="LinearLayoutManager"
-            tools:context="com.swvl.movies.MoviesListActivity"
             tools:listitem="@layout/list_item_movie"/>
 
     <FrameLayout

@@ -68,9 +68,9 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
 
-    // okhttp
-    def okhttpVersion = "3.9.0"
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+    //Glide
+    def glideVersion = "4.9.0"
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
 
     //JUnit
     def junitVersion = "4.12"

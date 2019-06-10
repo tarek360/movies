@@ -18,17 +18,8 @@ class MovieDetailInteractorImpl(
             .map { it[movieId] }
     }
 
-    var page = 1
-
     override fun searchPhotos(movieTitle: String): Observable<List<FlickrPhoto>> {
-        return flickrApi.searchPhotos(movieTitle = movieTitle, page = page)
-//            .doOnNext {
-//                it?.run {
-//                    if (stat == "ok") {
-//                        page++
-//                    }
-//                }
-//            }
+        return flickrApi.searchPhotos(movieTitle = movieTitle)
             .map {
                 it.flickrPhotos.photos
             }

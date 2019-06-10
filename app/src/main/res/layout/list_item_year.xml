@@ -7,5 +7,8 @@
         android:layout_height="wrap_content"
         android:textColor="@color/grey_light"
         android:textSize="14sp"
-        android:layout_margin="@dimen/card_margin"
+        android:layout_marginTop="22dp"
+        android:layout_marginBottom="@dimen/card_margin"
+        android:layout_marginLeft="@dimen/card_margin"
+        android:layout_marginRight="@dimen/card_margin"
         tools:text="2019"/>

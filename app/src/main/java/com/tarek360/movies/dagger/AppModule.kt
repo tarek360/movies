@@ -13,7 +13,6 @@ import com.tarek360.movies.viewmodel.MovieViewModelProvidersImpl
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -43,11 +42,7 @@ class AppModule(private val app: Application) {
     @Singleton
     fun provideRetrofit(): Retrofit {
 
-        val interceptor = (HttpLoggingInterceptor())
-            .apply { level = HttpLoggingInterceptor.Level.BODY }
-
         val okHttpClient: OkHttpClient = OkHttpClient.Builder()
-            .addInterceptor(interceptor)
             .build()
 
         return Retrofit.Builder()
