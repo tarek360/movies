@@ -21,7 +21,8 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField 'String', "OMDB_API_KEY", omdb_apikey
+            buildConfigField 'String', "FLICKR_API_KEY", flickr_api_key
+            buildConfigField 'String', "FLICKR_API_SECRET", flickr_api_secret
         }
     }
 }
@@ -82,6 +83,21 @@ dependencies {
     def mockitoKotlinVersion = "2.1.0"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
 
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    //Kakao
+    def kakaoVersion = "2.0.0-support"
+    androidTestImplementation "com.agoda.kakao:kakao:$kakaoVersion"
+
+    def androidTestRunnerVersion = "1.0.2"
+    androidTestImplementation "com.android.support.test:runner:$androidTestRunnerVersion"
+    androidTestImplementation "com.android.support.test:rules:$androidTestRunnerVersion"
+
+    //Espresso
+    def espressoVersion = "3.0.2"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$espressoVersion", {
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'design'
+        exclude group: 'com.android.support', module: 'recyclerview-v7'
+    }
 }
