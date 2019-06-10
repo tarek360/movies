@@ -7,7 +7,7 @@ import com.tarek360.movies.model.MoviesData
 import io.reactivex.Observable
 import java.nio.charset.Charset
 
-class MoviesRepositoryImpl(private val context: Context): MoviesRepository {
+class MoviesRepositoryImpl(private val context: Context) : MoviesRepository {
 
     companion object {
         const val FILE_NAME = "movies.json"
@@ -30,8 +30,9 @@ class MoviesRepositoryImpl(private val context: Context): MoviesRepository {
         val content = inputStream.readBytes().toString(Charset.defaultCharset())
         inputStream.close()
         val moviesData = Gson().fromJson(content, MoviesData::class.java)
-        this.moviesData = moviesData.copy(movies = moviesData.movies.withIds())
-        return moviesData
+        val moviesDataWithIds = MoviesData(movies = moviesData.movies.withIds())
+        this.moviesData = moviesDataWithIds
+        return moviesDataWithIds
     }
 
     private fun List<Movie>.withIds(): List<Movie> {

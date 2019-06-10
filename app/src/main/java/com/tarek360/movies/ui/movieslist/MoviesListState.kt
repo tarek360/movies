@@ -12,3 +12,8 @@ sealed class MoviesListState {
 
     data class ErrorState(val data: String) : MoviesListState()
 }
+
+
+sealed class MoviesListAction {
+    data class OpenMovieAction(val movieId: Int) : MoviesListAction()
+}

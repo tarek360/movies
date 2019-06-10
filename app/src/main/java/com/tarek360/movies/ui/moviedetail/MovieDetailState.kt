@@ -7,3 +7,7 @@ sealed class MovieDetailState {
     data class DataState(val data: Movie) : MovieDetailState()
     data class ErrorState(val data: String) : MovieDetailState()
 }
+
+sealed class MovieDetailAction {
+
+}

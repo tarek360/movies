@@ -10,7 +10,7 @@ class MovieDetailViewModel @Inject constructor(
     private val schedulerProvider: SchedulerProvider,
     private val movieDetailInteractor: MovieDetailInteractor
 ) :
-    BaseViewModel<MovieDetailIntent, MovieDetailState>() {
+    BaseViewModel<MovieDetailIntent, MovieDetailState, MovieDetailAction>() {
 
     override fun handleIntent(intent: MovieDetailIntent) {
         when (intent) {

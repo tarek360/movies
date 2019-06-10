@@ -12,7 +12,7 @@ open class MoviesListViewModel @Inject constructor(
     private val moviesListInteractor: MoviesListInteractor,
     private val recyclerViewItemMapper: RecyclerViewItemMapper
 ) :
-    BaseViewModel<MoviesListIntent, MoviesListState>() {
+    BaseViewModel<MoviesListIntent, MoviesListState, MoviesListAction>() {
 
     override fun handleIntent(intent: MoviesListIntent) {
         when (intent) {
@@ -21,6 +21,9 @@ open class MoviesListViewModel @Inject constructor(
             }
             is MoviesListIntent.SearchMoviesListIntent -> {
                 searchMoviesIntent(intent.searchKey)
+            }
+            is MoviesListIntent.OpenMovieIntent -> {
+                setViewAction(MoviesListAction.OpenMovieAction(intent.movieId))
             }
         }
     }
