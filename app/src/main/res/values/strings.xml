@@ -3,4 +3,7 @@
     <string name="title_item_detail">Item Detail</string>
     <string name="year">Year: %1$d</string>
     <string name="search_on_movies">Search on movies!</string>
+    <string name="year_title">Year:</string>
+    <string name="genres_title">Genres:</string>
+    <string name="cast_title">Cast:</string>
 </resources>

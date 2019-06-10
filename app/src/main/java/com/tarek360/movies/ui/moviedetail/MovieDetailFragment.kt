@@ -69,7 +69,9 @@ class MovieDetailFragment : Fragment() {
         Timber.d("Render: data state")
         progressBar.visibility = View.GONE
         activity?.toolbar_layout?.title = dataState.data.title
-        yearView.text = dataState.data.year.toString()
+        yearView.text = dataState.data.year
+        castView.text = dataState.data.cast
+        genresView.text = dataState.data.genres
     }
 
     private fun renderErrorState(dataState: MovieDetailState.ErrorState) {

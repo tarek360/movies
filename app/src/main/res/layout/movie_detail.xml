@@ -13,13 +13,79 @@
             android:visibility="invisible"
             android:layout_gravity="center"/>
 
-    <TextView
-            android:id="@+id/yearView"
-            style="?android:attr/textAppearanceLarge"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="16dp"
-            android:textIsSelectable="true"
-            tools:context=".moviedetail.MovieDetailFragment"/>
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <!--Year-->
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="@dimen/text_margin">
+
+            <TextView
+                    style="?android:attr/textAppearanceLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/year_title"/>
+
+            <TextView
+                    android:id="@+id/yearView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_marginStart="8dp"
+                    tools:text="1998"/>
+
+        </LinearLayout>
+
+        <!--Genres-->
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="@dimen/text_margin">
+
+            <TextView
+                    style="?android:attr/textAppearanceLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/genres_title"/>
+
+            <TextView
+                    android:id="@+id/genresView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:gravity="center"
+                    tools:text="Romance, Comedy."/>
+        </LinearLayout>
+
+        <!--Cast-->
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="@dimen/text_margin">
+
+            <TextView
+                    style="?android:attr/textAppearanceLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/cast_title"/>
+
+            <TextView
+                    android:id="@+id/castView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:gravity="center_vertical"
+                    tools:text="Joseph Gordon-Levitt, Steve Harris."/>
+        </LinearLayout>
+
+
+    </LinearLayout>
 
 </FrameLayout>
